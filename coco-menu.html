@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Ajax starting point</title>
+
+    <style>
+      html, pre {
+        font-family: sans-serif;
+      }
+      body {
+        width: 500px;
+        margin: 0 auto;
+        background-color: rgb(255, 185, 185);
+      }
+      pre {
+        line-height: 1.5;
+        letter-spacing: 0.05rem;
+        padding: 1rem;
+        background-color: rgb(255, 137, 137);
+      }
+      label {
+        width: 200px;
+        margin-right: 33px;
+      }
+      select {
+        width: 350px;
+        padding: 5px;
+      }
+    </style>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <h1>CoCo Fresh Tea & Juice </h1>
+
+    <form>
+      <label for="tea-choose">Choose a category</label>
+      <select id="tea-choose" name="tea-choose">
+        <option>Fruit</option>
+        <option>Tea</option>
+        <option>Chocolate</option>
+        
+      </select>
+    </form>
+
+
+    <pre>
+
+    </pre>
+
+    <script>
+        
+
+//        first grab the select and pre elements and store them as variables
+        
+        var teaChoose = document.querySelector('select');
+        var teaDisplay = document.querySelector('pre');
+        
+    //define an onchange event handler function so that when the select's value is changed, its value is passed to an invoked function updateDisplay() as a parameter
+        
+        teaChoose.onchange = function() {
+          var tea = teaChoose.value;
+          updateDisplay(tea);
+        };   
+        
+    //define the updateDisplay function
+        
+        function updateDisplay(tea) {
+            tea = tea.replace(" ", "");
+            tea = tea.toLowerCase();
+            var url = tea + '.txt';
+            console.log(url)
+            // print the url in console to make sure it is formatted correctly
+            
+            //The Fetch API is basically a modern replacement for XHR — it was introduced in browsers recently to make asynchronous HTTP requests easier to do in JavaScript, both for developers and other APIs that build on top of Fetch.
+            
+            //pass the URL of the resource we want to fetch
+            
+            //then is a Promise-- a JavaScript feature for performing asynchronous operations
+            
+            //function is automatically passed the response from the server as a parameter when the fetch() promise resolves
+            
+            //Text is a method that returns the response as raw text. It also returns another promise!
+            
+            //finally we grab the teaDisplay variable, which refers to the pre element
+            
+            //textContent property sets or returns the text content of the specified node, and all its descendants
+            
+            fetch(url).then(function(response) {
+            response.text().then(function(text) {
+            teaDisplay.textContent = text;
+                console.log(text);
+            // print the fetch text in console to make sure it fetches correctly
+                });
+            }); 
+
+        };
+    
+    //give us a verse on load (because Fruit Tea is pre-selected)
+        updateDisplay('Fruit');
+        teaChoose.value = 'Fruit';  
+        
+    </script>
+  </body>
+</html>
